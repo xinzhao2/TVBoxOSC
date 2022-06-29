@@ -91,9 +91,9 @@ jobs:
             cd TVBoxOSC
             export LESSCHARSET=utf-8
             if [ "${commit}" == "${lastCommit}" ]; then
-              COMMIT_MESSAGE="$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1]))"  "`git log --pretty=format:%s ${commit:0:7} -1`")"
+              COMMIT_MESSAGE="$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1]))"  "`git log --pretty=format:%B ${commit:0:7} -1 |sed -e '/^Merge pull/d' -e '/^$/d'`")"
             else
-              COMMIT_MESSAGE="$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1]))"  "`git log --pretty=format:%s ${commit:0:7}...${lastCommit:0:7}`")"
+              COMMIT_MESSAGE="$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1]))"  "`git log --pretty=format:%B ${commit:0:7}...${lastCommit:0:7} |sed -e '/^Merge pull/d' -e '/^$/d'`")"
             fi
             if [ ${#COMMIT_MESSAGE} -gt 0 ] && [ ${#COMMIT_MESSAGE} -le 1024 ]; then
               ESCAPED="$COMMIT_MESSAGE"
